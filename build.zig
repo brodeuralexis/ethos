@@ -19,6 +19,7 @@ pub fn build(b: *Builder) void {
 
     const common_params = [_][]const u8 {
         "qemu-system-i386",
+        "-serial", "file:COM1.txt",
         "-kernel", kernel.getOutputPath(),
     };
     const debug_params = [_][]const u8 {"-s", "-S"};

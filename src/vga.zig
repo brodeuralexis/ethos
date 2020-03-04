@@ -1,8 +1,6 @@
 const mem = @import("std").mem;
 const fmt = @import("std").fmt;
 
-const arch = @import("./arch.zig");
-
 const VGA_WIDTH: usize = 80;
 const VGA_HEIGHT: usize = 25;
 const VGA_SIZE: usize = VGA_WIDTH * VGA_HEIGHT;
@@ -68,6 +66,23 @@ pub fn print(comptime format: []const u8, args: var) void {
             }
         }
     }.output, format, args) catch unreachable;
+}
+
+pub fn warn(comptime format: []const u8, args: var) void {
+    const previousForeground = foreground;
+    const previousBackground = background;
+
+    foreground = .Red;
+    background = .Black;
+
+    print(format, args);
+
+    foreground = previousForeground;
+    background = previousBackground;
+}
+
+pub fn warnln(comptime format: []const u8, args: var) void {
+    warn(format ++ "\n", args);
 }
 
 fn write(char: u8) void {

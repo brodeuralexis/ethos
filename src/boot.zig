@@ -11,7 +11,7 @@ const kmain = @import("./kmain.zig").kmain;
 var stack: [32 * 1024]u8 align(16) linksection(".bss") = undefined;
 
 pub fn panic(message: []const u8, stack_trace: ?*StackTrace) noreturn {
-    vga.println("{}", .{ message });
+    vga.warnln("{}", .{ message });
     arch.hang();
 }
 
