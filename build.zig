@@ -1,6 +1,7 @@
 const std = @import("std");
 const Builder = std.build.Builder;
 const ArrayList = std.ArrayList;
+const CrossTarget = std.zig.CrossTarget;
 
 const builtin = @import("builtin");
 
@@ -11,7 +12,9 @@ pub fn build(b: *Builder) void {
     kernel.setOutputDir(".");
     kernel.install();
 
-    kernel.setTarget(.i386, .freestanding, .gnu);
+    var target = CrossTarget.parse(.{ .arch_os_abi = "i386-freestanding-eabi", }) catch unreachable;
+
+    kernel.setTarget(target);
     kernel.setLinkerScriptPath("./linker.ld");
 
     const qemu       = b.step("qemu",       "Run the OS with Qemu");

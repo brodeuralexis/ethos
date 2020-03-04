@@ -66,7 +66,7 @@ pub const Serial = struct {
         self.print(_format ++ "\n", args);
     }
 
-    pub fn format(self: *const Self, comptime _fmt: []const u8, _options: std.fmt.FormatOptions, context: var, comptime Errors: type, output: fn (@TypeOf(context), []const u8) Errors!void) Errors!void {
+    pub fn format(self: *const Self, comptime _fmt: []const u8, _options: std.fmt.FormatOptions, context: var, comptime Errors: type, comptime output: fn (@TypeOf(context), []const u8) Errors!void) Errors!void {
         return fmt.format(context, Errors, output, "Serial({})", .{ @tagName(self.port) });
     }
 };
