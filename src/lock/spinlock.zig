@@ -38,7 +38,7 @@ pub const SpinLock = struct {
         return TryWaitError.WouldBlock;
     }
 
-    pub fn format(self: Self, comptime _fmt: []const u8, _options: fmt.FormatOptions, context: var, comptime Errors: type, output: fn (@TypeOf(context), []const u8) Errors!void) Errors!void {
+    pub fn format(self: Self, comptime _fmt: []const u8, _options: fmt.FormatOptions, context: var, comptime Errors: type, comptime output: fn (@TypeOf(context), []const u8) Errors!void) Errors!void {
         return fmt.format(context, Errors, output, "SpinLock({})", .{ self.value });
     }
 };
