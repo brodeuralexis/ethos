@@ -19,11 +19,6 @@ pub fn build(b: *Builder) void {
     kernel.setTarget(target);
     kernel.setLinkerScriptPath("./linker.ld");
 
-    switch (target.getCpuArch()) {
-        .i386   => kernel.addAssemblyFile("src/arch/i386.S"),
-        else    => std.debug.panic("Target architecture not supported: {}", .{ target.getCpuArch() }),
-    }
-
     const qemu       = b.step("qemu",       "Run the OS with Qemu");
     const qemu_debug = b.step("qemu-debug", "Run the OS with Qemu and wait for debugger to attach");
 

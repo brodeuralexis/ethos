@@ -1,8 +1,6 @@
 const builtin = @import("builtin");
 const StackTrace = builtin.StackTrace;
 
-pub usingnamespace @import("./boot/multiboot.zig");
-
 const arch = @import("./arch.zig");
 const vga = @import("./vga.zig");
 
