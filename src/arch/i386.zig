@@ -30,12 +30,34 @@ pub inline fn hang() noreturn {
     hlt();
 }
 
-pub fn inb(port: u16) u8 {
+pub fn in(comptime T: type, port: u16) T {
+    switch (T) {
+        u8 => {
+            return inb(port);
+        },
+        else => {
+            @compileError("i386 received an invalid input type: " ++ @typeName(T));
+        },
+    }
+}
+
+pub fn out(comptime T: type, port: u16, value: T) void {
+    switch (T) {
+        u8 => {
+            outb(port, value);
+        },
+        else => {
+            @compileError("i386 received an invalid output type: " ++ @typeName(T));
+        },
+    }
+}
+
+inline fn inb(port: u16) u8 {
     return asm volatile ("inb %[port], %[result]" : [result] "={al}" (-> u8)
                                                   : [port]   "N{dx}" (port));
 }
 
-pub fn outb(port: u16, value: u8) void {
+inline fn outb(port: u16, value: u8) void {
     asm volatile ("outb %[value], %[port]" : : [value] "{al}" (value),
                                                [port]  "N{dx}" (port));
 }

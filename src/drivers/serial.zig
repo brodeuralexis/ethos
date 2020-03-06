@@ -18,13 +18,13 @@ pub const Serial = struct {
     pub fn init(port: COMPort) Self {
         var self: Self = .{ .port = port };
 
-        arch.outb(@enumToInt(self.port) + 1, 0x00);
-        arch.outb(@enumToInt(self.port) + 3, 0x80);
-        arch.outb(@enumToInt(self.port) + 0, 0x03);
-        arch.outb(@enumToInt(self.port) + 1, 0x00);
-        arch.outb(@enumToInt(self.port) + 3, 0x03);
-        arch.outb(@enumToInt(self.port) + 2, 0xC7);
-        arch.outb(@enumToInt(self.port) + 4, 0x0B);
+        arch.out(u8, @enumToInt(self.port) + 1, 0x00);
+        arch.out(u8, @enumToInt(self.port) + 3, 0x80);
+        arch.out(u8, @enumToInt(self.port) + 0, 0x03);
+        arch.out(u8, @enumToInt(self.port) + 1, 0x00);
+        arch.out(u8, @enumToInt(self.port) + 3, 0x03);
+        arch.out(u8, @enumToInt(self.port) + 2, 0xC7);
+        arch.out(u8, @enumToInt(self.port) + 4, 0x0B);
 
         return self;
     }
@@ -33,23 +33,23 @@ pub const Serial = struct {
     }
 
     fn received(self: *Self) u8 {
-        return arch.inb(@enumToInt(self.port) + 5) & 1;
+        return arch.in(u8, @enumToInt(self.port) + 5) & 1;
     }
 
     pub fn read(self: *Self) u8 {
         while (self.received() == 0) {}
 
-        return arch.inb(@enumToInt(self.port));
+        return arch.in(u8, @enumToInt(self.port));
     }
 
     fn isTransmitEmpty(self: *Self) u8 {
-        return arch.inb(@enumToInt(self.port) + 5) & 0x20;
+        return arch.in(u8, @enumToInt(self.port) + 5) & 0x20;
     }
 
     pub fn write(self: *Self, byte: u8) void {
         while (self.isTransmitEmpty() == 0) {}
 
-        arch.outb(@enumToInt(self.port), byte);
+        arch.out(u8, @enumToInt(self.port), byte);
     }
 
     pub fn print(self: *Self, comptime _format: []const u8, args: var) void {
