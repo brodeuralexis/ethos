@@ -1,4 +1,4 @@
-pub usingnamespace @import("./i386/instructions.zig");
+const instructions = @import("./i386/instructions.zig");
 
 usingnamespace @import("./boot/multiboot.zig");
 
@@ -16,3 +16,7 @@ pub export const multiboot_header align(4) linksection(".multiboot") = Multiboot
 pub fn init() void {
     @import("./i386/gdt.zig").init();
 }
+
+pub const in = instructions.in;
+pub const out = instructions.out;
+pub const hang = instructions.hang;

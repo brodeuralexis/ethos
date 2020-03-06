@@ -12,7 +12,7 @@ pub inline fn sti() void {
     asm volatile ("sti");
 }
 
-pub inline fn hang() noreturn {
+pub fn hang() noreturn {
     cli();
     hlt();
 }
