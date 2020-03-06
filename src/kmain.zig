@@ -1,6 +1,8 @@
-const vga = @import("./vga.zig");
 const SpinLock = @import("./lock.zig").SpinLock;
-const Serial = @import("./drivers.zig").Serial;
+
+const drivers = @import("./drivers.zig");
+const Serial = drivers.Serial;
+const vga = drivers.vga;
 
 pub fn kmain() void {
     vga.println("[kernel] initializing", .{});

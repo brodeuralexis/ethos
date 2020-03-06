@@ -2,7 +2,7 @@ const builtin = @import("builtin");
 const StackTrace = builtin.StackTrace;
 
 const arch = @import("./arch.zig");
-const vga = @import("./vga.zig");
+const vga = @import("./drivers.zig").vga;
 
 const kmain = @import("./kmain.zig").kmain;
 
