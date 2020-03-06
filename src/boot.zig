@@ -14,6 +14,8 @@ pub fn panic(message: []const u8, stack_trace: ?*StackTrace) noreturn {
 }
 
 export fn _start() callconv(.C) noreturn {
+    arch.init();
+
     vga.clear();
     vga.println("[kernel] starting", .{});
 

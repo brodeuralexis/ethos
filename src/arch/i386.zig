@@ -11,6 +11,10 @@ pub export const multiboot_header align(4) linksection(".multiboot") = Multiboot
     .checksum = ~(MAGIC +% FLAGS) +% 1,
 };
 
+pub fn init() void {
+    @import("./i386/gdt.zig").init();
+}
+
 pub inline fn hlt() noreturn {
     while (true) {
         asm volatile ("hlt");
